@@ -1,54 +1,26 @@
 const express = require('express');
 const app = express();
-// var urlm = require('url');
+
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-    // var _url = req.url;
-    var title = `Welcome`;
-
-    var template = `
-    <!doctype html>
-    <html>
-    <head>
-    <title>WEB1 - ${title}</title>
-    <meta charset="utf-8">
-    </head>
-    <body>
-    <h1><a href="/">WEB</a></h1>
-    <ol>
-        <li><a href="/?id=HTML">HTML</a></li>
-        <li><a href="/?id=CSS">CSS</a></li>
-        <li><a href="/?id=JavaScript">JavaScript</a></li>
-    </ol>
-    <h2>${title}</h2>
-    <p>Test</p>
-    </body>
-    </html>`;
-    res.send(template);
+    var context = {
+        title: 'Welcome-1'
+    };
+    res.render('home', context, (err, html) => {
+        res.end(html);
+    })
 })
 
 app.get('/:id', (req, res) => {
     var id = req.params.id;
-    console.log(`id: ${id}`);
-    var title = id;
-    var template = `<!doctype html>
-    <html>
-    <head>
-    <title>WEB1 - ${title}</title>
-    <meta charset="utf-8">
-    </head>
-    <body>
-    <h1><a href="/">WEB</a></h1>
-    <ol>
-        <li><a href="/HTML">HTML</a></li>
-        <li><a href="/CSS">CSS</a></li>
-        <li><a href="/JavaScript">JavaScript</a></li>
-    </ol>
-    <h2>${title}</h2>
-    <p>Test</p>
-    </body>
-    </html>`;
-    res.send(template);
+    var context = {
+        title: id
+    };
+    req.app.render('home', context, (err, html) => {
+        res.end(html);
+    })
 })
 
 app.get('/favicon.ico', (req, res) => res.writeHead(404));
